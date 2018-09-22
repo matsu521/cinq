@@ -1,50 +1,35 @@
 <?php
-//$name = isset($_POST['name']) ? $_POST['name'] : NULL;
-$gender = isset($_POST['gender']) ? $_POST['gender'] : NULL;
-$age = isset($_POST['age']) ? $_POST['age'] : NULL;
-$img = isset($_POST['img']) ? $_POST['img'] : NULL;
-$img = isset($_POST['pr']) ? $_POST['pr'] : NULL;
-
-$error = array();
-var_dump($name);
-
-
 function is_require($value) {
-	if(isset($_POST[$value]) && $_POST[$value] == '') {
-		$error = false;
+	if(isset($value) && $value == '') {
+		return false;
 	}
-	if(strlen($value[$value]) > 10) {
-	$error = false;
+	return true;
+}
+/**
+* 入力値の文字数判定をする 
+*/
+function isMaxStr($value) {
+	if(strlen($value) > 10) {
+		return false;
+	}
+	return true;	
+}
+function getErrorMssage($value) {
+
+	$error = [];
+	
+	if (!is_require($value)) {
+		$error[] = '必須です';
+	}
+	if (!isMaxStr($value)) {
+		$error[] = '10文字以内です';
 	}	
 	return $error;
 }
+$error = [];
 
+$error['name'] = getErrorMssage($_POST['name']);
 
-function is_require($value) {
-	if(isset($_POST['name']) && $_POST['name'] == '') {
-		$value = false;
-	}
-	if(strlen($value['name']) > 10) {
-	$value = false;
-	}	
-	return $value;
-}
-if($vale =false) {
-	echo $value;
-}	
-
-
-
-if(isset($_POST['name']) && $_POST['name'] == '') {
-	$error['name'][] = '必須です';
-}
-if(strlen($_POST['name']) > 10) {
-	$error['name'][] = '10文字以内です';
-}
-
-if($gender =="") {
-	$error['gender'] = '必須です';
-}
 ?>
 
 
@@ -61,26 +46,18 @@ if($gender =="") {
 <link href="css/import.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-<?php
-	foreach($)	
-?>	
+<body>	
 <form action="" method="post" enctype="multipart/form-data">
 	<dl>	
 	<dt>名前</dt>
 	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $_POST['name']; ?>" /></dd>
-
 <?php
-	echo $error[];
+foreach($error['name'] as $key => $value) {
+	echo $value;
+}	
 ?>
+	
 
-<?php
-if(count($error['name']) > 0) {
-	foreach ($error['name'] as $message) {
-		echo $message;
-	}
-}
-?>
 
 		<dt>性別</dt>
 		<dd><input type="radio" name="gender" id="myMale" value="male" /><label for="myMale">男性</label></dd>
