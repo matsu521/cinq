@@ -1,4 +1,12 @@
 <?php
+mysql_connect('localhost', 'root', 'root') or die(mysql_error());
+echo 'データベースに接続しました';
+//mysql_select_db('cnq_form');
+//mysql_query('SET NAMES UTF8');
+
+//mysql_query('INSERT INTO form SET cnq_form="ああ"') or die(mysql_errno());
+//echo 'データをセットしました';
+
 function is_require($value) {
 	if(isset($value) && $value == '') {
 		return false;
