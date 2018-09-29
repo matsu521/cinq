@@ -1,4 +1,5 @@
 <?php
+	echo "taniguchi";
 $name = isset($_POST['name']) ? $_POST['name'] : NULL;
 $gender = isset($_POST['gender']) ? $_POST['gender'] : NULL;
 $age = isset($_POST['age']) ? $_POST['age'] : NULL;
