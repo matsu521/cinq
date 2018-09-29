@@ -28,6 +28,29 @@ function isMaxStr($value) {
 	}
 	return true;	
 }
+
+/**
+* 入力値の文字数判定をする 
+*/
+function isNumber($value) {
+	if(!is_int($value)) {
+		return false;
+	}
+	return true;	
+}
+/**
+* 入力値が空かどうか判定
+*/
+function is_require2($value) {
+	if(is_null($value)) {
+		return false;
+	}
+	if(isset($value) && $value == '') {
+		
+		return false;
+	}
+	return true;
+}
 /**
 * 入力値の文字数判定をする2 
 */
@@ -49,12 +72,40 @@ function getErrorMssage($value) {
 	}		
 	return $error;
 }
+
+function getErrorGenderMssage($value) {
+
+	$error = [];
+	
+	if (!is_require2($value)) {
+		$error[] = '必須です';
+		return $error;
+	}
+//	if (!isNumber($value) && ($value = 1 or $value = 2)) {
+//		$error[] = '間違っています';
+//		return $error;
+//	}
+	if (!isExist($value, [1, 2])) {
+	
+	}		
+	return $error;
+}
 $error = [];
 $error['name'] = getErrorMssage($_POST['name']);
 
+if ($_POST['btn'] == 'submit') {
+	$error['gender'] = getErrorGenderMssage($_POST['gender']);
+}	
 
 
 
+function isExist($value, $compareList) {
+	
+	if (in_array($value, $compareList)) {
+		return true;
+	}
+	return false;
+}
 
 ?>
 
@@ -78,6 +129,7 @@ $error['name'] = getErrorMssage($_POST['name']);
 	<dt>名前</dt>
 	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $_POST['name']; ?>" /></dd>
 <?php
+	
 foreach($error['name'] as $key => $value) {
 	echo $value;
 }	
@@ -86,12 +138,12 @@ foreach($error['name'] as $key => $value) {
 
 
 		<dt>性別</dt>
-		<dd><input type="radio" name="gender" id="myMale" value="male" /><label for="myMale">男性</label></dd>
-		<dd><input type="radio" name="gender" id="myFemale" value="female" /><label for="myFemale">女性</label></dd>
+		<dd><input type="radio" name="gender" id="myMale" value="1" /><label for="myMale">男性</label></dd>
+		<dd><input type="radio" name="gender" id="myFemale" value="2" /><label for="myFemale">女性</label></dd>
 <?php
-foreach($error['gender'] as $key => $value) {
-	echo $value;
-}			
+	foreach($error['gender'] as $key => $value) {
+		echo $value;
+}					
 ?>
 
 
@@ -126,7 +178,7 @@ foreach($error['pr'] as $key => $value) {
 }			
 ?>	
 	
-	<p><input type="submit" value="送信" /></p>
+	<p><input type="submit" value="submit" name="btn" /></p>
 	<p><input type="reset" value="リセット" /></p>
 
 </form>
