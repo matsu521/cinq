@@ -1,12 +1,18 @@
 <?php
-mysql_connect('localhost', 'root', 'root') or die(mysql_error());
-echo 'データベースに接続しました';
+try {
+$pdo = new PDO('mysql:host=localhost;dbname=cnq_form;charset=utf8','root','root',
+array(PDO::ATTR_EMULATE_PREPARES => false));
+} catch (PDOException $e) {
+ exit('データベース接続失敗'.$e->getMessage());
+}
+//mysqli_connect('localhost', 'root', 'root') or die(mysql_error());
 //mysql_select_db('cnq_form');
 //mysql_query('SET NAMES UTF8');
 
-//mysql_query('INSERT INTO form SET cnq_form="ああ"') or die(mysql_errno());
-//echo 'データをセットしました';
 
+/**
+* 入力値が空かどうか判定
+*/
 function is_require($value) {
 	if(isset($value) && $value == '') {
 		return false;
@@ -22,6 +28,15 @@ function isMaxStr($value) {
 	}
 	return true;	
 }
+/**
+* 入力値の文字数判定をする2 
+*/
+function isMaxStr2($value) {
+	if(strlen($value) > 250) {
+		return false;
+	}
+	return true;	
+}
 function getErrorMssage($value) {
 
 	$error = [];
@@ -31,12 +46,15 @@ function getErrorMssage($value) {
 	}
 	if (!isMaxStr($value)) {
 		$error[] = '10文字以内です';
-	}	
+	}		
 	return $error;
 }
 $error = [];
-
 $error['name'] = getErrorMssage($_POST['name']);
+
+
+
+
 
 ?>
 
@@ -70,7 +88,14 @@ foreach($error['name'] as $key => $value) {
 		<dt>性別</dt>
 		<dd><input type="radio" name="gender" id="myMale" value="male" /><label for="myMale">男性</label></dd>
 		<dd><input type="radio" name="gender" id="myFemale" value="female" /><label for="myFemale">女性</label></dd>
-<?php echo $error['gender']; ?>
+<?php
+foreach($error['gender'] as $key => $value) {
+	echo $value;
+}			
+?>
+
+
+
 
 		<dt>年齢</dt>
 <dd><select name="age">
@@ -80,9 +105,11 @@ foreach($error['name'] as $key => $value) {
 }
 	?>
 	</select></dd>
-<?php if($error['age'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>	
+<?php
+foreach($error['age'] as $key => $value) {
+	echo $value;
+}			
+?>
 
 		<dt>画像</dt>
 		<dd><input type="file" name="img"></dd>
@@ -93,12 +120,11 @@ foreach($error['name'] as $key => $value) {
 		<dt>PR欄</dt>
 		<dd><textarea name="pr" rows="5" cols="40"></textarea></dd>
 	</dl>
-<?php if($error['pr'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>
-<?php if($error['pr']): ?>
-	<p>250文字以内です</p>
-<?php endif; ?>		
+<?php
+foreach($error['pr'] as $key => $value) {
+	echo $value;
+}			
+?>	
 	
 	<p><input type="submit" value="送信" /></p>
 	<p><input type="reset" value="リセット" /></p>
