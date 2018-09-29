@@ -1,45 +1,17 @@
 <?php
-//$name = isset($_POST['name']) ? $_POST['name'] : NULL;
+	echo "taniguchi";
+$name = isset($_POST['name']) ? $_POST['name'] : NULL;
 $gender = isset($_POST['gender']) ? $_POST['gender'] : NULL;
 $age = isset($_POST['age']) ? $_POST['age'] : NULL;
 $img = isset($_POST['img']) ? $_POST['img'] : NULL;
 $img = isset($_POST['pr']) ? $_POST['pr'] : NULL;
 
 $error = array();
-var_dump($name);
 
-
-function is_require($value) {
-	if(isset($_POST[$value]) && $_POST[$value] == '') {
-		$error = false;
-	}
-	if(strlen($value[$value]) > 10) {
-	$error = false;
-	}	
-	return $error;
-}
-
-
-function is_require($value) {
-	if(isset($_POST['name']) && $_POST['name'] == '') {
-		$value = false;
-	}
-	if(strlen($value['name']) > 10) {
-	$value = false;
-	}	
-	return $value;
-}
-if($vale =false) {
-	echo $value;
-}	
-
-
-
-if(isset($_POST['name']) && $_POST['name'] == '') {
-	$error['name'][] = '必須です';
-}
-if(strlen($_POST['name']) > 10) {
-	$error['name'][] = '10文字以内です';
+if($name == '') {
+	$error['name'] = '必須です';
+} else if(strlen($_POST['name']) > 10) {
+	$error['name'] = '10文字以内です';
 }
 
 if($gender =="") {
@@ -62,21 +34,14 @@ if($gender =="") {
 </head>
 
 <body>
-<?php
-	foreach($)	
-?>	
 <form action="" method="post" enctype="multipart/form-data">
 	<dl>	
 	<dt>名前</dt>
-	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $_POST['name']; ?>" /></dd>
+	<dd><input type="text" name="name" size="35" maxlength="255" value="" /></dd>
 
 <?php
-	echo $error[];
-?>
-
-<?php
-if(count($error['name']) > 0) {
-	foreach ($error['name'] as $message) {
+if(count($error) > 0) {
+	foreach ($error as $message) {
 		echo $message;
 	}
 }
