@@ -29,6 +29,9 @@ function isNumber($value) {
 	return true;	
 }
 
+/**
+*	入力チェックを行う
+**/
 function getErrorMessage($param, $rules) {
 	
 	if (isset($rules) && is_array($rules)) {

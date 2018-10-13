@@ -8,26 +8,22 @@
 				), 
 //			'sex' => array()
 		);
-		
-	// 値初期化
-	foreach ($params as $key => $rules) {
-		${$key} = ''; 
-	}	
+			
 	$errors = array();
 
-	// 送信ボタン押下
-	if (isset($_POST['btn'])) {
-
-
-
-		foreach ($params as $key => $rules) {
+	foreach ($params as $key => $rules) {
+		${$key} = ''; // 初期化
+		
+		// 送信ボタン押下
+		if (isset($_POST['btn'])) {
 			// 入力チェック
 			$errors[$key] = getErrorMessage($_POST[$key], $rules);
-			
+		
 			// 値セット
 			${$key} = $_POST[$key];
 		}
 	}
+
 ?>
 
 
