@@ -1,19 +1,23 @@
 <?php
 	include('validation.php');
 
-		$params = array(
-			'name'=> array(
-					'require'=> '',
-					'max'    => 10
-				),
-				'pr'=> array(
-					'require'=> '',
-					'max'    => 12
-				), 
-//			'sex' => array()
-		);
-			
-	$errors = array();
+	$params = array(
+		'name'=> array(
+				'require'=> '',
+				'max'    => 10
+			),
+		'gender'=> array(
+			'require'=> '',
+			'num'    => ''
+		), 
+		'pr'=> array(
+			'require'=> '',
+			'max'    => 12
+		),
+	);
+
+	$genders = array(1=> '男性', 2=> '女性');			
+	$errors  = array();
 
 	foreach ($params as $key => $rules) {
 		${$key} = ''; // 初期化
@@ -47,47 +51,55 @@
 <body>
 <form action="" method="post" enctype="multipart/form-data">
 	<dl>	
-	<dt>名前</dt>
-	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $name;?>" /></dd>
-
-	<?php
-	if (isset($errors['name'])) {
-		echo $errors['name'];
-	}
-	?>
+		<dt>名前</dt>
+		<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $name;?>" /></dd>
+		<?php
+		if (isset($errors['name'])) {
+			echo $errors['name'];
+		}
+		?>
 
 		<dt>性別</dt>
-		<dd><input type="radio" name="gender" id="myMale" value="male" /><label for="myMale">男性</label></dd>
-		<dd><input type="radio" name="gender" id="myFemale" value="female" /><label for="myFemale">女性</label></dd>
-<?php echo $error['gender']; ?>
+		<dd>
+			<?php foreach($genders as $key => $value) { ?>
+				<input type="radio" name="gender" id="myMale" value=<?php echo $key;?> 
+					<?php
+						if ($key == $gender) {
+							echo "checked";
+						}
+					?>
+				/><label for="myMale"><?php echo $value;?></label>
+			<?php } ?>		
+		</dd>
+		<?php
+		if (isset($errors['gender'])) {
+			echo $errors['gender'];
+		}
+		?>
 
 		<dt>年齢</dt>
-<dd><select name="age">
-<?php
-	for($i=1; $i<=100; $i++) {
-	echo '<option value="' .$i. '">' .$i. '歳</option>';
-}
-	?>
-	</select></dd>
-<?php if($error['age'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>	
-
+		<dd><select name="age">
+		<?php
+			for($i=1; $i<=100; $i++) {
+				echo '<option value="' .$i. '">' .$i. '歳</option>';
+			}
+		?>
+		</select></dd>
+			
 		<dt>画像</dt>
 		<dd><input type="file" name="img"></dd>
-<?php if($error['img'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>	
+		<?php if($error['img'] == 'blank'): ?>
+			<p>必須です</p>
+		<?php endif; ?>	
 
 		<dt>PR欄</dt>
 		<dd><textarea name="pr" rows="5" cols="40"><?php echo $pr;?></textarea></dd>
+		<?php
+			if (isset($errors['pr'])) {
+				echo $errors['pr'];
+			}
+		?>
 	</dl>
-	<?php
-	if (isset($errors['pr'])) {
-		echo $errors['pr'];
-	}
-	?>
-	
 	
 	<p><input type="submit" value="送信" name="btn" /></p>
 	<p><input type="reset" value="リセット" /></p>

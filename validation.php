@@ -20,13 +20,13 @@ function isMaxStr($value, $limit) {
 }
 
 /**
-* 入力値の文字数判定をする 
+* 入力値が数値であるか判定をする 
 */
-function isNumber($value) {
-	if(!is_int($value)) {
-		return false;
+function isNum($value) {
+	if (preg_match('/^[0-9]+$/', $value)) {
+		return true;
 	}
-	return true;	
+	return false;	
 }
 
 /**
@@ -44,6 +44,11 @@ function getErrorMessage($param, $rules) {
 			if ($key == 'max') {
 				if (!isMaxStr($param, $value)) {
 					return $value. '文字以内です';
+				}
+			}
+			if ($key == 'num') {
+				if (!isNum($param)) {
+					return '数値ではありません';
 				}
 			}
 		}
