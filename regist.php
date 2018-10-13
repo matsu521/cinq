@@ -5,6 +5,10 @@
 			'name'=> array(
 					'require'=> '',
 					'max'    => 10
+				),
+				'pr'=> array(
+					'require'=> '',
+					'max'    => 12
 				), 
 //			'sex' => array()
 		);
@@ -46,11 +50,11 @@
 	<dt>名前</dt>
 	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $name;?>" /></dd>
 
-<?php
-if (isset($errors['name'])) {
-	echo $errors['name'];
-}
-?>
+	<?php
+	if (isset($errors['name'])) {
+		echo $errors['name'];
+	}
+	?>
 
 		<dt>性別</dt>
 		<dd><input type="radio" name="gender" id="myMale" value="male" /><label for="myMale">男性</label></dd>
@@ -76,14 +80,14 @@ if (isset($errors['name'])) {
 <?php endif; ?>	
 
 		<dt>PR欄</dt>
-		<dd><textarea name="pr" rows="5" cols="40"></textarea></dd>
+		<dd><textarea name="pr" rows="5" cols="40"><?php echo $pr;?></textarea></dd>
 	</dl>
-<?php if($error['pr'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>
-<?php if($error['pr']): ?>
-	<p>250文字以内です</p>
-<?php endif; ?>		
+	<?php
+	if (isset($errors['pr'])) {
+		echo $errors['pr'];
+	}
+	?>
+	
 	
 	<p><input type="submit" value="送信" name="btn" /></p>
 	<p><input type="reset" value="リセット" /></p>
