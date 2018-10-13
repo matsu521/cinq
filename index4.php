@@ -168,8 +168,8 @@ foreach($error['name'] as $key => $value) {
 
 
 		<dt>性別</dt>
-		<dd><input type="radio" name="gender" id="myMale" value="1" checked="<?php if(($_POST['gender']) == 1){ echo 'checked'; } ?>" /><label for="myMale">男性</label></dd>
-		<dd><input type="radio" name="gender" id="myFemale" value="2" checked="<?php if(($_POST['gender']) == 2){ echo 'checked'; } ?>" /><label for="myFemale">女性</label></dd>
+		<dd><input type="radio" name="gender" id="myMale" value="1" <?php if(($_POST['gender']) == 1){ echo 'checked=\"checked\"'; } ?> /><label for="myMale">男性</label></dd>
+		<dd><input type="radio" name="gender" id="myFemale" value="2" <?php if(($_POST['gender']) == 2){ echo 'checked=\"checked\"'; } ?> /><label for="myFemale">女性</label></dd>
 <?php
 	foreach($error['gender'] as $key => $value) {
 		echo $value;
@@ -182,7 +182,12 @@ foreach($error['name'] as $key => $value) {
 <dd><select name="age">
 <?php
 	for($i=1; $i<=100; $i++) {
-	echo '<option value="' .$i. '">' .$i. '歳</option>';
+		if($i == $_POST['age']) {
+			$selected = 'selected';
+		} else {
+			$selected = '';
+		}
+			echo '<option value="' .$i. '" '.$selected. '>' .$i. '歳</option>';
 }
 	?>
 	</select></dd>
