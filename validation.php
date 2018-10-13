@@ -30,6 +30,16 @@ function isNum($value) {
 }
 
 /**
+* 入力値が指定値に一致しているか判定をする 
+*/
+function isExist($value, $list = array()) {
+	if (in_array($value, $list)) {
+		return true;
+	}
+	return false;	
+}
+
+/**
 *	入力チェックを行う
 **/
 function getErrorMessage($param, $rules) {
@@ -49,6 +59,11 @@ function getErrorMessage($param, $rules) {
 			if ($key == 'num') {
 				if (!isNum($param)) {
 					return '数値ではありません';
+				}
+			}
+			if ($key == 'exist') {
+				if (!isExist($param, $value)) {
+					return '不正な値です';
 				}
 			}
 		}

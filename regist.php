@@ -3,10 +3,15 @@
 
 	$params = array(
 		'name'=> array(
-				'require'=> '',
-				'max'    => 10
-			),
+			'require'=> '',
+			'max'    => 10
+		),
 		'gender'=> array(
+			'require'=> '',
+			'num'    => '',
+			'exist'  => array(1, 2)
+		),
+		'age'=> array(
 			'require'=> '',
 			'num'    => ''
 		), 
@@ -78,13 +83,27 @@
 		?>
 
 		<dt>年齢</dt>
-		<dd><select name="age">
+		<dd>
+			<select name="age">
+				<option value=""></option>
+				<?php
+					for ($i = 1; $i <= 100; $i++) {
+						echo '<option value="'. $i. '" ';
+						if ($i == $age) {
+							echo "selected";
+						}
+						echo '>';
+						echo $i;
+						echo '歳</option>';
+					}
+				?>
+			</select>
+		</dd>
 		<?php
-			for($i=1; $i<=100; $i++) {
-				echo '<option value="' .$i. '">' .$i. '歳</option>';
-			}
+		if (isset($errors['age'])) {
+			echo $errors['age'];
+		}
 		?>
-		</select></dd>
 			
 		<dt>画像</dt>
 		<dd><input type="file" name="img"></dd>
