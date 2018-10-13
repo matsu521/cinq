@@ -40,6 +40,16 @@ function isExist($value, $list = array()) {
 }
 
 /**
+* 入力値が指定値の範囲内か判定をする 
+*/
+function isBetween($value, $between = array()) {
+	if ($value >= $between[0] && $value <= $between[1]) {
+		return true;
+	}
+	return false;	
+}
+
+/**
 *	入力チェックを行う
 **/
 function getErrorMessage($param, $rules) {
@@ -63,6 +73,11 @@ function getErrorMessage($param, $rules) {
 			}
 			if ($key == 'exist') {
 				if (!isExist($param, $value)) {
+					return '不正な値です';
+				}
+			}
+			if ($key == 'between') {
+				if (!isBetween($param, $value)) {
 					return '不正な値です';
 				}
 			}

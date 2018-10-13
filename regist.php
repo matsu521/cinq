@@ -13,7 +13,8 @@
 		),
 		'age'=> array(
 			'require'=> '',
-			'num'    => ''
+			'num'    => '',
+			'between' => array(1, 100)
 		), 
 		'pr'=> array(
 			'require'=> '',
@@ -58,11 +59,7 @@
 	<dl>	
 		<dt>名前</dt>
 		<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $name;?>" /></dd>
-		<?php
-		if (isset($errors['name'])) {
-			echo $errors['name'];
-		}
-		?>
+		<?php echo (isset($errors['name'])) ? $errors['name'] : ''; ?>
 
 		<dt>性別</dt>
 		<dd>
@@ -76,11 +73,7 @@
 				/><label for="myMale"><?php echo $value;?></label>
 			<?php } ?>		
 		</dd>
-		<?php
-		if (isset($errors['gender'])) {
-			echo $errors['gender'];
-		}
-		?>
+		<?php echo (isset($errors['gender'])) ? $errors['gender'] : ''; ?>
 
 		<dt>年齢</dt>
 		<dd>
@@ -99,25 +92,15 @@
 				?>
 			</select>
 		</dd>
-		<?php
-		if (isset($errors['age'])) {
-			echo $errors['age'];
-		}
-		?>
+		<?php echo (isset($errors['age'])) ? $errors['age'] : ''; ?>
 			
 		<dt>画像</dt>
 		<dd><input type="file" name="img"></dd>
-		<?php if($error['img'] == 'blank'): ?>
-			<p>必須です</p>
-		<?php endif; ?>	
+		<?php echo (isset($errors['img'])) ? $errors['img'] : ''; ?>
 
 		<dt>PR欄</dt>
 		<dd><textarea name="pr" rows="5" cols="40"><?php echo $pr;?></textarea></dd>
-		<?php
-			if (isset($errors['pr'])) {
-				echo $errors['pr'];
-			}
-		?>
+		<?php echo (isset($errors['pr'])) ? $errors['pr'] : ''; ?>
 	</dl>
 	
 	<p><input type="submit" value="送信" name="btn" /></p>
