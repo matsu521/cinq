@@ -11,7 +11,7 @@ array(PDO::ATTR_EMULATE_PREPARES => false));
 
 
 /**
-* 入力値が空かどうか判定
+* 入力値が空かどうか判定（テキスト）
 */
 function is_require($value) {
 	if(isset($value) && $value == '') {
@@ -20,7 +20,7 @@ function is_require($value) {
 	return true;
 }
 /**
-* 入力値の文字数判定をする 
+* 入力値の文字数判定をする（10以内）
 */
 function isMaxStr($value) {
 	if(strlen($value) > 10) {
@@ -30,7 +30,7 @@ function isMaxStr($value) {
 }
 
 /**
-* 入力値の文字数判定をする 
+* 入力値の数値判定をする 
 */
 function isNumber($value) {
 	if(!is_int($value)) {
@@ -39,7 +39,7 @@ function isNumber($value) {
 	return true;	
 }
 /**
-* 入力値が空かどうか判定
+* 入力値が空かどうか判定（ラジオボタン）
 */
 function is_require2($value) {
 	if(is_null($value)) {
@@ -52,7 +52,17 @@ function is_require2($value) {
 	return true;
 }
 /**
-* 入力値の文字数判定をする2 
+* 配列が数値どおりか（ラジオボタン）
+*/
+function isExist($value, $compareList) {
+	
+	if (in_array($value, $compareList)) {
+		return true;
+	}
+	return false;
+}
+/**
+* 入力値の文字数判定をする（250以内） 
 */
 function isMaxStr2($value) {
 	if(strlen($value) > 250) {
@@ -60,6 +70,9 @@ function isMaxStr2($value) {
 	}
 	return true;	
 }
+/**
+* テキストボックスエラーメッセージ
+*/
 function getErrorMssage($value) {
 
 	$error = [];
@@ -72,7 +85,9 @@ function getErrorMssage($value) {
 	}		
 	return $error;
 }
-
+/**
+* ラジオボタンエラーメッセージ
+*/
 function getErrorGenderMssage($value) {
 
 	$error = [];
@@ -81,31 +96,46 @@ function getErrorGenderMssage($value) {
 		$error[] = '必須です';
 		return $error;
 	}
-//	if (!isNumber($value) && ($value = 1 or $value = 2)) {
-//		$error[] = '間違っています';
-//		return $error;
-//	}
 	if (!isExist($value, [1, 2])) {
 	
 	}		
 	return $error;
 }
+/**
+* セレクトボックスエラーメッセージ
+*/
+function getErrorAgeMssage($value) {
+	if (!is_require($value)) {
+		$error[] = '必須です';
+	}
+	return $error;		
+	}
+/**
+* テキストエリアエラーメッセージ
+*/
+function getErrorPrMssage($value) {
+	if (!is_require($value)) {
+		$error[] = '必須です';
+	}
+	if (!isMaxStr2($value)) {
+		$error[] = '250文字以内です';
+	}
+	return $error;		
+	}
+/**
+* 各項目ごとのエラーメッセージを代入
+*/	
 $error = [];
 $error['name'] = getErrorMssage($_POST['name']);
 
 if ($_POST['btn'] == 'submit') {
 	$error['gender'] = getErrorGenderMssage($_POST['gender']);
 }	
+$error['age'] = getErrorAgeMssage($_POST['age']);
+$error['pr'] = getErrorPrMssage($_POST['pr']);
 
 
 
-function isExist($value, $compareList) {
-	
-	if (in_array($value, $compareList)) {
-		return true;
-	}
-	return false;
-}
 
 ?>
 
@@ -138,14 +168,13 @@ foreach($error['name'] as $key => $value) {
 
 
 		<dt>性別</dt>
-		<dd><input type="radio" name="gender" id="myMale" value="1" /><label for="myMale">男性</label></dd>
-		<dd><input type="radio" name="gender" id="myFemale" value="2" /><label for="myFemale">女性</label></dd>
+		<dd><input type="radio" name="gender" id="myMale" value="1" checked="<?php if(($_POST['gender']) == 1){ echo 'checked'; } ?>" /><label for="myMale">男性</label></dd>
+		<dd><input type="radio" name="gender" id="myFemale" value="2" checked="<?php if(($_POST['gender']) == 2){ echo 'checked'; } ?>" /><label for="myFemale">女性</label></dd>
 <?php
 	foreach($error['gender'] as $key => $value) {
 		echo $value;
 }					
 ?>
-
 
 
 
@@ -158,9 +187,9 @@ foreach($error['name'] as $key => $value) {
 	?>
 	</select></dd>
 <?php
-foreach($error['age'] as $key => $value) {
-	echo $value;
-}			
+	foreach($error['age'] as $key => $value) {
+		echo $value;
+}					
 ?>
 
 		<dt>画像</dt>
@@ -170,12 +199,12 @@ foreach($error['age'] as $key => $value) {
 <?php endif; ?>	
 
 		<dt>PR欄</dt>
-		<dd><textarea name="pr" rows="5" cols="40"></textarea></dd>
+		<dd><textarea name="pr" rows="5" cols="40"><?php echo $_POST['pr']; ?></textarea></dd>
 	</dl>
 <?php
-foreach($error['pr'] as $key => $value) {
-	echo $value;
-}			
+	foreach($error['pr'] as $key => $value) {
+		echo $value;
+}					
 ?>	
 	
 	<p><input type="submit" value="submit" name="btn" /></p>
