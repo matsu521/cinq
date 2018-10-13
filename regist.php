@@ -1,43 +1,33 @@
 <?php
-session_start();
-if(!empty($_POST)){
-  //エラー項目の確認
-  //ニックネームが空の場合
-  if($_POST['name'] == '') {
-    $error['name'] = 'blank';
-  } 
+	include('validation.php');
 
-  if(strlen($_POST['name']) > 10) {
-  	$error['name'] = 'length';
-  }
- 
-  if($_POST['gender'] =='') {
- 	$error['gender'] = 'blank';
-  }
+		$params = array(
+			'name'=> array(
+					'require'=> '',
+					'max'    => 10
+				), 
+//			'sex' => array()
+		);
+		
+	// 値初期化
+	foreach ($params as $key => $rules) {
+		${$key} = ''; 
+	}	
+	$errors = array();
 
-  if($_POST['age'] == '') {
- 	$error['age'] = 'blank';
-  }
+	// 送信ボタン押下
+	if (isset($_POST['btn'])) {
 
-  if($_POST['img'] == '') {
- 	$error['img'] = 'blank';
-  }
 
- if($_POST['pr'] == '') {
-	$error['pr'] = 'blank';
- }
- 
-  //パスワードが6文字以下の場合
-  if(strlen($_POST['pr']) > 250) {
-    $error['pr'] = 'length';
-  }
- 
-  //エラーがない場合は確認ページへページ遷移
-  if(empty($error)){
-    $_SESSION['join'] = $_POST;
-    header('Location: check.php');
-  }
-}
+
+		foreach ($params as $key => $rules) {
+			// 入力チェック
+			$errors[$key] = getErrorMessage($_POST[$key], $rules);
+			
+			// 値セット
+			${$key} = $_POST[$key];
+		}
+	}
 ?>
 
 
@@ -58,21 +48,18 @@ if(!empty($_POST)){
 <form action="" method="post" enctype="multipart/form-data">
 	<dl>	
 	<dt>名前</dt>
-	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo htmlspecialchars($_POST['name'],ENT_QUOTES,'UTF-8'); ?>" /></dd>
-<?php if($error['name'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>
+	<dd><input type="text" name="name" size="35" maxlength="255" value="<?php echo $name;?>" /></dd>
 
-<?php if($error['name'] == 'length') : ?>
-	<p>10文字以内です</p>
-<?php endif; ?>		
+<?php
+if (isset($errors['name'])) {
+	echo $errors['name'];
+}
+?>
 
 		<dt>性別</dt>
 		<dd><input type="radio" name="gender" id="myMale" value="male" /><label for="myMale">男性</label></dd>
 		<dd><input type="radio" name="gender" id="myFemale" value="female" /><label for="myFemale">女性</label></dd>
-<?php if($error['gender'] == 'blank'): ?>
-	<p>必須です</p>
-<?php endif; ?>
+<?php echo $error['gender']; ?>
 
 		<dt>年齢</dt>
 <dd><select name="age">
@@ -102,7 +89,8 @@ if(!empty($_POST)){
 	<p>250文字以内です</p>
 <?php endif; ?>		
 	
-	<p><input type="submit" value="送信" /></p>
+	<p><input type="submit" value="送信" name="btn" /></p>
+	<p><input type="reset" value="リセット" /></p>
 
 </form>
 </body>
