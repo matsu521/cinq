@@ -5,6 +5,15 @@ array(PDO::ATTR_EMULATE_PREPARES => false));
 } catch (PDOException $e) {
  exit('データベース接続失敗'.$e->getMessage());
 }
+
+
+
+$sql = 'INSERT INTO form(name,sex,age,img_path,comments,reg_date,mod_date) VALUES(';
+$sql .= '"'. $_POST['name'] .'","'. $_POST['gender'] .'","'. $_POST['age'] .'","'. $_POST['file'] .'","'. $_POST['pr'] .'",' .'now(),now()';
+$sql .= ')';
+echo $sql;
+
+
 //mysqli_connect('localhost', 'root', 'root') or die(mysql_error());
 //mysql_select_db('cnq_form');
 //mysql_query('SET NAMES UTF8');
