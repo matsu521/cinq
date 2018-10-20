@@ -15,7 +15,16 @@
 			'require'=> '',
 			'num'    => '',
 			'between' => array(1, 100)
-		), 
+		),
+		'img'=> array(
+			'upload'	 => '',
+			'upload_size'=> '1000000',
+			'upload_mime_type' => array(
+		            'gif' => 'image/gif',
+		            'jpg' => 'image/jpeg',
+		            'png' => 'image/png',
+        		),
+		),
 		'pr'=> array(
 			'require'=> '',
 			'max'    => 12
@@ -30,11 +39,17 @@
 		
 		// 送信ボタン押下
 		if (isset($_POST['btn'])) {
+			// 入力値取得
+			$value = ($key == 'img') ? $_FILES[$key] : $_POST[$key];
+			
 			// 入力チェック
-			$errors[$key] = getErrorMessage($_POST[$key], $rules);
+			$errors[$key] = getErrorMessage($value, $rules);
 		
 			// 値セット
 			${$key} = $_POST[$key];
+			var_dump($errors);
+			// 入力エラーなし
+
 		}
 	}
 
